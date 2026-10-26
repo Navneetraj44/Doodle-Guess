@@ -1,0 +1,34 @@
+# Render Blueprint: web service that runs the game server (Express + Socket.IO).
+#
+# ── Split-deploy (default, recommended) ──────────────────────────────────────
+# Frontend is hosted separately on Vercel. This service runs the backend only.
+# After deploying, set CLIENT_ORIGIN (below) to your Vercel app URL.
+# On Vercel set VITE_SERVER_URL to this service's Render URL.
+#
+# ── Single-service alternative ───────────────────────────────────────────────
+# To run everything from one Render URL (no CORS, no Vercel needed):
+#   1. Change buildCommand to: npm ci --include=dev && npm run build
+#   2. Remove or leave blank the CLIENT_ORIGIN env var below.
+#   The server will automatically serve client/dist when it exists.
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# Deploy: push this repo to GitHub → Render dashboard → New → Blueprint → pick the repo.
+services:
+  - type: web
+    name: doodle-guess
+    runtime: node
+    plan: free
+    # Builds the server only (TypeScript → dist/). The client is built and hosted on Vercel.
+    # --include=dev: TypeScript (tsc) and tsx are devDependencies.
+    buildCommand: npm ci --include=dev && npm run build -w server
+    startCommand: npm run start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: CLIENT_ORIGIN
+        # Set this to your Vercel frontend URL, e.g. https://your-app.vercel.app
+        # Comma-separate multiple origins if needed.
+        # Leave blank (or remove) when using the single-service alternative above.
+        value: ""
