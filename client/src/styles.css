@@ -66,7 +66,7 @@ button:disabled:hover { transform:none; }
 /* ---- 4. Forms ------------------------------------------------------------------------------------------------------------ */
 label { display:block; margin:10px 0; font-size:.88rem; font-weight:700; }
 input:not([type=checkbox]),select,textarea { display:block; width:100%; margin-top:4px; padding:9px 12px; font:inherit; font-size:1rem; font-weight:600; color:var(--ink); background:var(--card); border:var(--line); border-radius:var(--r-input); }
-input:not([type=checkbox]),textarea,[contenteditable="true"] { cursor:text; caret-color:auto; }
+input:not([type=checkbox]):not([type=range]),textarea,[contenteditable="true"] { cursor:text; caret-color:auto; }
 input::placeholder,textarea::placeholder { color:#80766a; font-weight:500; } textarea { resize:vertical; }
 input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--focus); outline-offset:2px; box-shadow:3px 3px 0 var(--blue); }
 .check { display:flex; align-items:flex-start; gap:8px; font-weight:700; } .check input { margin-top:3px; width:18px; height:18px; accent-color:var(--pink); } .check.inline { margin:0; }
