@@ -48,6 +48,7 @@ export function parseRoomCode(input: string | null | undefined): string {
 }
 export const MODE_LABEL: Record<string, string> = { normal: 'Normal', hidden: 'Hidden word' };
 export const MIN_CUSTOM_ONLY = 3; // keep in sync with server/src/words.ts
+export const MAX_CUSTOM_WORDS = 100; // keep in sync with server/src/words.ts
 export const WORD_COUNTS = [1, 2, 3, 4, 5]; export const HINT_COUNTS = [0, 1, 2, 3, 4, 5];
 export const DRAW_TIMES = [15, 30, 45, 60, 80, 90, 120, 150, 180, 240];
 /** Parses the custom-word textarea (one per line or comma-separated). */

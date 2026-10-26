@@ -142,6 +142,640 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--
 .toast { display:flex; align-items:center; gap:8px; padding:5px 14px; font-weight:700; background:var(--card); border:var(--line); border-radius:var(--r-small); box-shadow:var(--shadow-sm); } .toast.join { background:var(--green-soft); } .toast.leave { background:var(--pink-soft); }
 @media (prefers-reduced-motion:no-preference) { .modal { animation:pop .16s ease-out; } .toast { animation:drop .25s ease-out; } @keyframes pop { from { transform:scale(.94); opacity:0; } } @keyframes drop { from { transform:translateY(-10px); opacity:0; } } }
 
+/* ---- Create Room & Room Settings Modal Redesign ---- */
+.modal.create-room-modal {
+  position: relative;
+  max-width: 500px;
+  border-radius: 24px;
+  padding: 24px 22px 20px;
+  background: var(--card);
+  box-shadow: 6px 6px 0 var(--ink);
+  border: 2.5px solid var(--ink);
+  overflow: visible;
+}
+.cr-close-btn {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--sun);
+  border: 2.5px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ink);
+  z-index: 20;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  padding: 0;
+}
+.cr-close-btn:hover:not(:disabled) {
+  transform: scale(1.1) rotate(6deg);
+}
+.cr-close-btn:active:not(:disabled) {
+  transform: scale(0.95);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+.cr-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.cr-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.cr-header-text h2 {
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.cr-subtitle {
+  margin: 3px 0 0;
+  font-size: 0.88rem;
+  color: #6B6256;
+  font-family: var(--sans);
+  font-weight: 500;
+}
+
+/* 1. Room Visibility */
+.cr-visibility-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.cr-visibility-label {
+  font-size: 0.95rem;
+  font-weight: 750;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.cr-visibility-seg {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+}
+.cr-vis-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  background: #F7F3EB;
+  border: 2px solid transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: none;
+}
+.cr-vis-btn:hover:not(:disabled) {
+  background: #EFE9DE;
+  transform: none;
+}
+.cr-vis-btn.on {
+  background: var(--sun, #FFD23F);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  color: var(--ink);
+}
+.cr-vis-icon {
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.cr-vis-btn-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.15;
+}
+.cr-vis-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+.cr-vis-sub {
+  font-size: 0.72rem;
+  color: #5A5148;
+  font-weight: 500;
+  font-family: var(--sans);
+}
+
+/* 2. Word Mode and Word Categories */
+.cr-dropdowns-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.cr-card-block {
+  background: #F7F3EB;
+  border-radius: 14px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+.cr-card-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 750;
+  color: var(--ink);
+}
+.cr-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+.cr-select-control {
+  width: 100%;
+  height: 38px;
+  background: #FFFDF8;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  padding: 0 32px 0 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-family: var(--hand);
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.cr-select-control:focus-visible {
+  outline: 2px solid var(--blue);
+}
+.cr-select-arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+}
+.cr-dropdown-trigger {
+  width: 100%;
+  height: 38px;
+  background: #FFFDF8;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  padding: 0 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-family: var(--hand);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: none;
+  outline: none;
+}
+.cr-dropdown-trigger:focus-visible {
+  outline: 2px solid var(--blue);
+}
+.cr-dropdown-trigger-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Word Categories Popover (Compact, shows 4 items, scrollable) */
+.cr-wp-popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 270px;
+  background: var(--card);
+  border: 2.5px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--ink);
+  z-index: 100;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cr-wp-popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px;
+  border-bottom: 1.5px dashed var(--ink-soft);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+.cr-wp-quick-actions {
+  display: flex;
+  gap: 6px;
+}
+.cr-wp-quick-actions button {
+  background: #EFE9DE;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: none;
+}
+.cr-wp-quick-actions button:hover {
+  background: var(--sun);
+}
+.cr-wp-list {
+  max-height: 165px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 2px;
+}
+.cr-wp-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: none;
+  transition: all 0.12s ease;
+  width: 100%;
+}
+.cr-wp-item:hover {
+  background: #F3EDE2;
+}
+.cr-wp-item.on {
+  background: var(--sun-soft, #FFF1B8);
+  border-color: var(--ink);
+}
+.cr-wp-item-icon {
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.cr-wp-item-label {
+  flex: 1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-family: var(--sans);
+}
+.cr-wp-item-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid var(--ink);
+  background: #FFFDF8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+}
+.cr-wp-item.on .cr-wp-item-check {
+  background: var(--sun);
+}
+
+/* 3. Game Settings Sliders (Single-line horizontal rows) */
+.cr-sliders-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 10px 0 12px;
+}
+.cr-slider-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 0;
+  min-height: 38px;
+  background: transparent;
+}
+.cr-slider-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 185px;
+  min-width: 165px;
+}
+.cr-slider-icon {
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.cr-slider-label {
+  font-size: 0.92rem;
+  font-weight: 750;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.cr-slider-middle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 120px;
+}
+.cr-endpoint {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #8C8275;
+  font-family: var(--sans);
+  user-select: none;
+}
+.cr-endpoint.min {
+  min-width: 16px;
+  text-align: right;
+}
+.cr-endpoint.max {
+  min-width: 24px;
+  text-align: left;
+}
+.cr-range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 7px;
+  border-radius: 999px;
+  outline: none;
+  margin: 0;
+  cursor: pointer;
+}
+.cr-range-slider:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.cr-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFFDF8;
+  border: 3.5px solid var(--pink, #FF4FA3);
+  box-shadow: 0 1px 3px rgba(36, 32, 27, 0.25);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+.cr-range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.18);
+}
+.cr-range-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFFDF8;
+  border: 3.5px solid var(--pink, #FF4FA3);
+  box-shadow: 0 1px 3px rgba(36, 32, 27, 0.25);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+.cr-range-slider::-moz-range-thumb:hover {
+  transform: scale(1.18);
+}
+.cr-slider-val-badge {
+  min-width: 48px;
+  padding: 4px 8px;
+  background: #FDECEF;
+  border: 1.5px solid #F8B4C8;
+  border-radius: 9px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--ink);
+  text-align: center;
+  font-family: var(--hand);
+  flex-shrink: 0;
+}
+
+/* 4. Custom Words (Collapsible Section) */
+.cr-custom-card {
+  background: #FFF5F7;
+  border: 2px solid #FCD4DE;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
+}
+.cr-custom-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+  font-family: var(--hand);
+  box-shadow: none;
+  transition: background-color 0.12s ease;
+}
+.cr-custom-header:hover {
+  background: rgba(255, 79, 163, 0.08);
+}
+.cr-custom-header:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+}
+.cr-custom-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 750;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.cr-chevron {
+  display: flex;
+  align-items: center;
+  color: var(--ink);
+  transition: transform 0.2s ease;
+}
+.cr-chevron.rotated {
+  transform: rotate(180deg);
+}
+.cr-custom-body {
+  padding: 0 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: crSlideDown 0.15s ease-out;
+}
+@keyframes crSlideDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.cr-textarea-wrap {
+  position: relative;
+  width: 100%;
+}
+.cr-textarea-wrap textarea {
+  width: 100%;
+  min-height: 80px;
+  max-height: 140px;
+  resize: vertical;
+  background: #FFFDF8;
+  border: 1.5px solid #E2D9CE;
+  border-radius: 10px;
+  padding: 8px 10px 22px 10px;
+  font-size: 0.88rem;
+  font-family: var(--sans);
+  line-height: 1.4;
+  outline: none;
+  color: var(--ink);
+}
+.cr-textarea-wrap textarea:focus {
+  border-color: var(--pink);
+  outline: 2px solid var(--pink-soft);
+}
+.cr-word-counter {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-size: 0.75rem;
+  color: #8C8275;
+  font-family: var(--mono);
+  font-weight: 600;
+  pointer-events: none;
+}
+
+/* Modal Actions */
+.cr-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.cr-btn-cancel {
+  background: transparent;
+  border: 2px dashed var(--ink);
+  border-radius: 12px;
+  padding: 8px 24px;
+  font-family: var(--hand);
+  font-weight: 750;
+  font-size: 0.95rem;
+  color: var(--ink);
+  cursor: pointer;
+  min-width: 105px;
+  box-shadow: none;
+  transition: all 0.15s ease;
+}
+.cr-btn-cancel:hover:not(:disabled) {
+  background: rgba(36, 32, 27, 0.06);
+  transform: translateY(-1px);
+}
+.cr-btn-cancel:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.cr-btn-submit {
+  background: var(--sun, #FFD23F);
+  border: 2.5px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 3px 3px 0 var(--ink);
+  padding: 8px 24px;
+  font-family: var(--hand);
+  font-weight: 750;
+  font-size: 0.95rem;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 155px;
+  transition: all 0.15s ease;
+}
+.cr-btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.cr-btn-submit:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+@media (max-width: 520px) {
+  .modal.create-room-modal {
+    padding: 16px 14px 14px;
+    border-radius: 18px;
+    max-height: calc(100dvh - 16px);
+  }
+  .cr-close-btn {
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+  }
+  .cr-visibility-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .cr-visibility-seg {
+    width: 100%;
+  }
+  .cr-vis-btn {
+    flex: 1;
+    padding: 6px 8px;
+  }
+  .cr-slider-row {
+    flex-wrap: wrap;
+    gap: 4px 8px;
+  }
+  .cr-slider-left {
+    flex: 1 1 auto;
+  }
+  .cr-slider-middle {
+    order: 3;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+  .cr-slider-val-badge {
+    order: 2;
+  }
+  .cr-dropdowns-row {
+    grid-template-columns: 1fr;
+  }
+  .cr-wp-popover {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+  .cr-actions {
+    width: 100%;
+  }
+  .cr-actions button {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 /* ---- 9. Lobby: the game screen's layout (HUD | board + toolbar | players + chat) with a waiting panel where the canvas will be -------- */
 .results,.museum { max-width:1000px; margin:0 auto; }
 .lobby-brand { display:flex; align-items:center; flex-wrap:wrap; gap:6px 14px; min-width:0; } .lobby-brand .logo { margin:0; } .lobby-brand .logo.small { margin:0; }

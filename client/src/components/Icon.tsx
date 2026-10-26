@@ -44,6 +44,9 @@ const P: Record<string, ReactNode> = {
   flag: <><path d="M5 21V4" /><path d="M5 4h12l-2.5 4L17 12H5" /></>,
   chat: <><path d="M4 5h16v11H11l-5 4v-4H4V5z" /><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01" /></>,
   wifiOff: <><path d="M3 3l18 18M5 10a10 10 0 015-2.7M19 10a10 10 0 00-3-2M8.5 14a5 5 0 014-1.3M12 18h.01" /></>,
+  fileText: <><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" /></>,
+  chevronDown: <path d="M6 9l6 6 6-6" />,
+  chevronUp: <path d="M18 15l-6-6-6 6" />,
 };
 export type IconName = keyof typeof P;
 export default function Icon({ name, size = 20, className = '', label }: { name: IconName; size?: number; className?: string; label?: string }) {
