@@ -32,7 +32,7 @@
 /* ---- 2. Base ------------------------------------------------------------------------------------------------------------ */
 * { box-sizing:border-box; }
 html { color-scheme:light; -webkit-text-size-adjust:100%; }
-body { margin:0; overflow-x:hidden; font-family:var(--hand); font-variation-settings:'INFM' 60,'BNCE' 0; color:var(--ink); line-height:1.45; -webkit-font-smoothing:antialiased;
+body { margin:0; overflow-x:hidden; font-family:var(--hand); font-variation-settings:'INFM' 60,'BNCE' 0; color:var(--ink); line-height:1.45; -webkit-font-smoothing:antialiased; cursor:default; caret-color:transparent;
   background-color:var(--paper); background-image:radial-gradient(rgba(36,32,27,.07) 1px,transparent 1px),radial-gradient(rgba(36,32,27,.05) 1px,transparent 1px); background-size:7px 7px,13px 13px; background-position:0 0,3px 5px; }
 .app { overflow-x:clip; min-height:100vh; min-height:100dvh; padding:16px; } .app > * { min-width:0; }
 h1,h2,h3 { font-family:var(--hand); font-weight:750; font-variation-settings:'INFM' 90,'BNCE' 30; margin:0 0 8px; line-height:1.15; }
@@ -66,6 +66,7 @@ button:disabled:hover { transform:none; }
 /* ---- 4. Forms ------------------------------------------------------------------------------------------------------------ */
 label { display:block; margin:10px 0; font-size:.88rem; font-weight:700; }
 input:not([type=checkbox]),select,textarea { display:block; width:100%; margin-top:4px; padding:9px 12px; font:inherit; font-size:1rem; font-weight:600; color:var(--ink); background:var(--card); border:var(--line); border-radius:var(--r-input); }
+input:not([type=checkbox]),textarea,[contenteditable="true"] { cursor:text; caret-color:auto; }
 input::placeholder,textarea::placeholder { color:#80766a; font-weight:500; } textarea { resize:vertical; }
 input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--focus); outline-offset:2px; box-shadow:3px 3px 0 var(--blue); }
 .check { display:flex; align-items:flex-start; gap:8px; font-weight:700; } .check input { margin-top:3px; width:18px; height:18px; accent-color:var(--pink); } .check.inline { margin:0; }
