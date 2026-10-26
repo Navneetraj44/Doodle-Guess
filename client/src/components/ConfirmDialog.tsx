@@ -1,12 +1,12 @@
 import { ReactNode, useEffect, useRef } from 'react';
 
 interface Props {
-  title: string; children: ReactNode; confirmLabel: string; cancelLabel?: string;
-  busy?: boolean; onConfirm: () => void; onCancel: () => void;
+  title: string; children?: ReactNode; confirmLabel: string; cancelLabel?: string;
+  dialogClass?: string; closeLabel?: string; busy?: boolean; onConfirm: () => void; onCancel: () => void;
 }
 
 /** Small accessible modal: Esc / backdrop = cancel, focus starts on the safe (cancel) button, Tab stays inside, focus returns afterwards. */
-export default function ConfirmDialog({ title, children, confirmLabel, cancelLabel = 'Stay in game', busy, onConfirm, onCancel }: Props) {
+export default function ConfirmDialog({ title, children, confirmLabel, cancelLabel = 'Stay in game', dialogClass = '', closeLabel, busy, onConfirm, onCancel }: Props) {
   const box = useRef<HTMLDivElement>(null);
   const cancelBtn = useRef<HTMLButtonElement>(null);
   const cancelRef = useRef(onCancel); cancelRef.current = onCancel;
@@ -29,9 +29,10 @@ export default function ConfirmDialog({ title, children, confirmLabel, cancelLab
 
   return (
     <div className="modal-backdrop" onMouseDown={e => { if (e.target === e.currentTarget && !busy) onCancel(); }}>
-      <div className="modal" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby="confirm-body" ref={box}>
+      <div className={`modal ${dialogClass}`} role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" aria-describedby={children ? 'confirm-body' : undefined} ref={box}>
+        {closeLabel && <button type="button" className="modal-close" onClick={onCancel} disabled={busy} aria-label={closeLabel}>×</button>}
         <h2 id="confirm-title">{title}</h2>
-        <div id="confirm-body" className="modal-body">{children}</div>
+        {children && <div id="confirm-body" className="modal-body">{children}</div>}
         <div className="modal-actions">
           <button className="secondary" ref={cancelBtn} onClick={onCancel} disabled={busy}>{cancelLabel}</button>
           <button className="danger" onClick={onConfirm} disabled={busy}>{busy ? 'Leaving…' : confirmLabel}</button>

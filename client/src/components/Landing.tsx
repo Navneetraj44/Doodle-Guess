@@ -9,10 +9,10 @@ import Icon from './Icon';
 import AvatarPicker from './AvatarPicker';
 import CreateRoomModal, { NewRoomConfig } from './CreateRoomModal';
 
-interface Props { initialName: string; initialAvatar: string; connected: boolean; notice?: string; onEnter: (r: Room, name: string, avatar: string) => void; }
+interface Props { initialName: string; initialAvatar: string; connected: boolean; notice?: string; onDismissNotice: () => void; onEnter: (r: Room, name: string, avatar: string) => void; }
 type Busy = 'create' | 'join' | 'play' | '';
 
-export default function Landing({ initialName, initialAvatar, connected, notice, onEnter }: Props) {
+export default function Landing({ initialName, initialAvatar, connected, notice, onDismissNotice, onEnter }: Props) {
   const [name, setName] = useState(initialName);
   const [avatar, setAvatar] = useState(() => (isValidAvatar(initialAvatar) ? initialAvatar : randomAvatar())); // an old emoji avatar from an earlier session is replaced
   const [code, setCode] = useState(parseRoomCode(location.search)); // prefilled from an invite link (?room=CODE)
@@ -21,6 +21,7 @@ export default function Landing({ initialName, initialAvatar, connected, notice,
 
   /** Runs create/join. Returns true when the player entered a room. */
   const run = async (event: 'create_room' | 'join_room', payload: object, kind: Busy = event === 'create_room' ? 'create' : 'join') => {
+    onDismissNotice();
     if (!name.trim()) { setError('Please enter a display name first.'); setCreate(false); return false; }
     setError(''); setBusy(kind);
     const res = await emit(event, { ...payload, token: getToken(), playerName: name, avatar });
@@ -31,12 +32,13 @@ export default function Landing({ initialName, initialAvatar, connected, notice,
   };
   /** Quick Play = join a random open public room, or open a new public one if nobody is waiting. */
   const quickPlay = async () => {
+    onDismissNotice();
     if (!name.trim()) { setError('Please enter a display name first.'); return; }
     setBusy('play'); const list = await emit<ListAck>('list_public_rooms');
     if (list.ok && list.rooms.length) { await run('join_room', { roomCode: list.rooms[Math.floor(Math.random() * list.rooms.length)].code }, 'play'); return; }
     await run('create_room', { settings: { isPublic: true } }, 'play');
   };
-  const openCreate = () => { if (!name.trim()) { setError('Please enter a display name first.'); return; } setError(''); setCreate(true); };
+  const openCreate = () => { onDismissNotice(); if (!name.trim()) { setError('Please enter a display name first.'); return; } setError(''); setCreate(true); };
   const disabled = !!busy || !connected;
 
   return (
@@ -47,7 +49,8 @@ export default function Landing({ initialName, initialAvatar, connected, notice,
           <p className="tagline">Draw. Guess. Have fun. <span className="scrawl">just a name, no sign-up</span></p>
           <p className="lede">A multiplayer drawing and guessing game. Play with friends, or jump into a public room.</p>
           <div className="you-card">
-            {(error || notice) && !create && <div className="error" role="alert">{error || notice}</div>}
+            {error && !create && <div className="error" role="alert">{error}</div>}
+            {notice && !create && <div className="landing-notice" role="status"><span>{notice}</span><button type="button" className="notice-dismiss" onClick={onDismissNotice} aria-label="Dismiss notification">×</button></div>}
             <div className="you-row">
               <AvatarPicker value={avatar} onChange={setAvatar} />
               <div className="grow"><label htmlFor="name">Your name</label><input id="name" className="name-input" value={name} maxLength={20} onChange={e => setName(e.target.value)} placeholder="What should we call you?" autoComplete="nickname" /></div>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { socket, emit, getToken } from './socket';
 import { ChatMessage, PrivateState, Room } from './types';
 import { ClockSample, bestOffset } from './clock';
+import { removalMessage, REMOVAL_NOTICE_MS } from './removal';
 import Landing from './components/Landing';
 import Lobby from './components/Lobby';
 
@@ -22,6 +23,12 @@ export default function App() {
   const [avatar, setAvatar] = useState(() => sessionStorage.getItem('avatar') || '');
 
   useEffect(() => {
+    if (!notice) return;
+    const timer = window.setTimeout(() => setNotice(''), REMOVAL_NOTICE_MS);
+    return () => window.clearTimeout(timer);
+  }, [notice]);
+
+  useEffect(() => {
     const onState = (r: Room) => {
       if (leftCode.current === r.code) return; // in-flight update from a room this player already left
       setRoom(r);
@@ -34,8 +41,10 @@ export default function App() {
     const onYou = (d: { id: string }) => setMeId(d.id);
     const onHost = (d: { customWords: string[] }) => setHostWords(d.customWords);
     const onKicked = (d: { banned: boolean }) => {
-      sessionStorage.removeItem('roomCode'); lastPhase.current = null; setRoom(null); setChat([]); setPriv({ wordOptions: null, word: null }); setHostWords([]); history.replaceState(null, '', location.pathname);
-      setNotice(d.banned ? 'The host banned you from that room.' : 'The host removed you from that room. You can rejoin with the code.');
+      const code = sessionStorage.getItem('roomCode'); if (code) leftCode.current = code;
+      sessionStorage.removeItem('roomCode'); lastPhase.current = null; clockSynced.current = false;
+      setRoom(null); setMeId(''); setChat([]); setPriv({ wordOptions: null, word: null }); setHostWords([]); setOffset(0); history.replaceState(null, '', location.pathname);
+      setNotice(removalMessage(d.banned));
     };
     // Measure how far this computer's clock is from the server's: 5 quick pings, the one with the shortest round trip wins. Repeated every 30 s.
     const syncClock = async () => {
@@ -84,7 +93,7 @@ export default function App() {
   return (
     <div className="app">
       {!connected && <div className="banner" role="status">{everConnected.current ? 'Connection lost — reconnecting…' : 'Connecting to server… (it may take up to a minute if the server was asleep)'}</div>}
-      {!room || !meId ? <Landing initialName={name} initialAvatar={avatar} connected={connected} notice={notice} onEnter={enter} />
+      {!room || !meId ? <Landing initialName={name} initialAvatar={avatar} connected={connected} notice={notice} onDismissNotice={() => setNotice('')} onEnter={enter} />
              : <Lobby room={room} me={meId} onLeave={leave} chat={chat} priv={priv} offset={offset} hostWords={hostWords} />}
     </div>
   );
