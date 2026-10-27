@@ -108,7 +108,7 @@ export default function Game({ room, me, chat, priv, offset, onLeave, notices }:
             </div>
           </div></div>
           {canDraw ? (
-            <DrawToolbar color={color} size={size} tool={tool} onColor={setColor} onSize={setSize} onTool={setTool} reactions={showReactions ? reactionButtons : null} />)
+            <DrawToolbar color={color} size={size} tool={tool} onColor={setColor} onSize={setSize} onTool={setTool} />)
             : showReactions && (
               <div className="board-foot">
                 {reactionButtons}
