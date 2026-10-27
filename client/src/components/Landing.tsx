@@ -52,7 +52,7 @@ export default function Landing({ initialName, initialAvatar, connected, notice,
             {notice && !create && <div className="landing-notice" role="status"><span>{notice}</span><button type="button" className="notice-dismiss" onClick={onDismissNotice} aria-label="Dismiss notification">×</button></div>}
             <div className="you-row">
               <AvatarPicker value={avatar} onChange={setAvatar} />
-              <div className="grow"><label htmlFor="name">Your name</label><input id="name" className="name-input" value={name} maxLength={20} onChange={e => setName(e.target.value)} placeholder="What should we call you?" autoComplete="nickname" /></div>
+              <div className="grow"><label htmlFor="display-name">Your name</label><input id="display-name" name="nickname" type="text" className="name-input" value={name} maxLength={20} onChange={e => setName(e.target.value)} placeholder="What should we call you?" autoComplete="nickname" autoCapitalize="words" /></div>
             </div>
             <div className="cta-row">
               <button className="go big" disabled={disabled} onClick={quickPlay}>{busy === 'play' ? <span className="spin" aria-label="Finding a room" /> : <><Icon name="play" size={22} /> Quick Play</>}</button>

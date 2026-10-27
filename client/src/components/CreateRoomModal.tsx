@@ -126,22 +126,24 @@ export default function CreateRoomModal({ busy, error, onCreate, onCancel }: Pro
           </div>
         </div>
 
-        {/* Shared settings controls */}
-        <RoomSettingsFields
-          settings={settings}
-          customWordsText={text}
-          onSettingChange={handleSettingChange}
-          onCustomWordsChange={setText}
-          firstSliderRef={firstSliderRef}
-          disabled={busy}
-        />
+        <div className="cr-scroll">
+          {/* Shared settings controls */}
+          <RoomSettingsFields
+            settings={settings}
+            customWordsText={text}
+            onSettingChange={handleSettingChange}
+            onCustomWordsChange={setText}
+            firstSliderRef={firstSliderRef}
+            disabled={busy}
+          />
 
-        {/* Error notification */}
-        {shown && (
-          <div className="error" role="alert" style={{ margin: '10px 0 4px' }}>
-            {shown}
-          </div>
-        )}
+          {/* Error notification */}
+          {shown && (
+            <div className="error" role="alert" style={{ margin: '10px 0 4px' }}>
+              {shown}
+            </div>
+          )}
+        </div>
 
         {/* Modal Actions */}
         <div className="cr-actions">

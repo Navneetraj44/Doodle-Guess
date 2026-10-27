@@ -150,14 +150,20 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--
 /* ---- Create Room & Room Settings Modal Redesign ---- */
 .modal.create-room-modal {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   max-width: 500px;
+  width: min(500px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   border-radius: 24px;
   padding: 24px 22px 20px;
   background: var(--card);
   box-shadow: 6px 6px 0 var(--ink);
   border: 2.5px solid var(--ink);
-  overflow: visible;
+  overflow: hidden;
 }
+.cr-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; margin-right: -4px; }
 .cr-close-btn {
   position: absolute;
   top: -12px;
@@ -529,6 +535,8 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--
   border-radius: 999px;
   outline: none;
   margin: 0;
+  min-width: 0;
+  flex: 1 1 auto;
   cursor: pointer;
 }
 .cr-range-slider:focus-visible {
@@ -726,10 +734,12 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--
 }
 
 @media (max-width: 520px) {
+  .modal-backdrop { align-items: center; padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
   .modal.create-room-modal {
     padding: 16px 14px 14px;
     border-radius: 18px;
-    max-height: calc(100dvh - 16px);
+    width: 100%;
+    max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
   .cr-close-btn {
     top: 10px;
@@ -755,7 +765,9 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--
   }
   .cr-slider-left {
     flex: 1 1 auto;
+    min-width: 0;
   }
+  .cr-slider-label { white-space: normal; }
   .cr-slider-middle {
     order: 3;
     width: 100%;
@@ -774,6 +786,11 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--
   }
   .cr-actions {
     width: 100%;
+    flex: none;
+    padding-top: 10px;
+    margin-top: 0;
+    background: var(--card);
+    border-top: 2px dashed var(--ink-soft);
   }
   .cr-actions button {
     flex: 1;
@@ -808,7 +825,10 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--
 @media (max-width:700px) {
   .lobby-brand { gap:6px 10px; } .lobby-game .hud { grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"round actions" "hint hint"; } .lobby-game .lobby-brand { grid-area:round; }
   .room-title { font-size:1.6rem; } .code-big { letter-spacing:.14em; padding-left:.14em; font-size:clamp(1.8rem,10vw,2.6rem); } .copy-row { flex-direction:column; align-items:stretch; width:100%; } .copy-row button { width:100%; min-height:48px; }
-  .lobby-game .scores { display:grid; overflow:visible; padding:0 4px 4px 0; } .lobby-game .scores li { flex:initial; align-self:auto; }
+  .lobby-game .scores.in-lobby { display:flex; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x proximity; scroll-padding-inline:4px; padding:0 4px 8px; }
+  .lobby-game .scores.in-lobby li { flex:0 0 min(220px,78vw); min-width:0; align-self:stretch; scroll-snap-align:start; }
+  .lobby-game .scores.in-lobby .who { min-width:0; } .lobby-game .scores.in-lobby .pname-text { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .lobby-game .scores.in-lobby .mod-row { flex:1 0 100%; justify-content:flex-start; padding-top:0; }
 }
 
 /* ---- 10. Game arena: HUD | board + toolbar | players | chat ----------------------------------------------------------------

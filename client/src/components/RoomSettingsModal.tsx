@@ -122,22 +122,24 @@ export default function RoomSettingsModal({ room, hostWords, act, onError, onClo
           </div>
         </div>
 
-        {/* Shared settings controls */}
-        <RoomSettingsFields
-          settings={settings}
-          customWordsText={text}
-          onSettingChange={handleSettingChange}
-          onCustomWordsChange={setText}
-          firstSliderRef={firstSliderRef}
-          disabled={busy}
-        />
+        <div className="cr-scroll">
+          {/* Shared settings controls */}
+          <RoomSettingsFields
+            settings={settings}
+            customWordsText={text}
+            onSettingChange={handleSettingChange}
+            onCustomWordsChange={setText}
+            firstSliderRef={firstSliderRef}
+            disabled={busy}
+          />
 
-        {/* Error notification */}
-        {local && (
-          <div className="error" role="alert" style={{ margin: '10px 0 4px' }}>
-            {local}
-          </div>
-        )}
+          {/* Error notification */}
+          {local && (
+            <div className="error" role="alert" style={{ margin: '10px 0 4px' }}>
+              {local}
+            </div>
+          )}
+        </div>
 
         {/* Modal Actions */}
         <div className="cr-actions">
