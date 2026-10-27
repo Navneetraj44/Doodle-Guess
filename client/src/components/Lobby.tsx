@@ -11,11 +11,8 @@ import Toasts, { usePlayerToasts } from './Toasts';
 import Chat from './Chat';
 import PlayerList from './PlayerList';
 import RoomSettingsModal from './RoomSettingsModal';
-import DrawToolbar, { COLORS } from './DrawToolbar';
 
 interface Props { room: Room; me: string; onLeave: () => void; chat: ChatMessage[]; priv: PrivateState; offset: number; hostWords: string[]; }
-
-const noop = () => {};
 
 export default function Lobby({ room, me, onLeave, chat, priv, offset, hostWords }: Props) {
   const [error, setError] = useState(''); const [copied, setCopied] = useState<'' | 'code' | 'link'>('');
@@ -62,7 +59,6 @@ export default function Lobby({ room, me, onLeave, chat, priv, offset, hostWords
                 <div className="copy-row">
                   <button type="button" className="paper" onClick={() => copy('code')}>{copied === 'code' && <Icon name="check" size={18} />}{copied === 'code' ? 'Copied!' : 'Copy code'}</button>
                   <button type="button" className="blue" onClick={() => copy('link')}><Icon name={copied === 'link' ? 'check' : 'link'} size={18} /> {copied === 'link' ? 'Copied!' : 'Copy invite link'}</button>
-                  {isHost && <button type="button" className="paper" onClick={() => setEditing(true)}><Icon name="pencil" size={18} /> Room settings</button>}
                 </div>
                 <div className="chips setting-badges" aria-label="Room settings">
                   <span className="chip">{s.rounds} rounds</span><span className="chip">{s.drawTime}s draw</span><span className="chip">{s.wordCount} words</span>
@@ -78,7 +74,6 @@ export default function Lobby({ room, me, onLeave, chat, priv, offset, hostWords
               </div>
             </div>
           </div></div>
-          <DrawToolbar disabled color={COLORS[0]} size={8} tool="brush" onColor={noop} onSize={noop} onTool={noop} />
         </section>
         <aside className="side">
           <PlayerList room={room} me={me} lobby />
