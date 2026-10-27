@@ -23,7 +23,7 @@ export default function Chat({ messages, placeholder, title = 'Guesses', classNa
           </p>))}
       </div>
       {err && <div className="error small" role="alert">{err}</div>}
-      <form onSubmit={send}><input value={text} maxLength={100} onChange={e => setText(e.target.value)} placeholder={placeholder} aria-label="Chat or guess" autoComplete="off" enterKeyHint="send" /><button type="submit" className="send-btn" aria-label="Send"><span className="send-text">Send</span><Icon name="send" size={18} /></button></form>
+      <form autoComplete="off" onSubmit={send}><input type="text" name="chat-message" value={text} maxLength={100} onChange={e => setText(e.target.value)} placeholder={placeholder} aria-label="Chat or guess" autoComplete="off" autoCapitalize="sentences" spellCheck={true} enterKeyHint="send" /><button type="submit" className="send-btn" aria-label="Send"><span className="send-text">Send</span><Icon name="send" size={18} /></button></form>
     </section>
   );
 }
