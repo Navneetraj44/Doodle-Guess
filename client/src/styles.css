@@ -110,7 +110,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--
 .hero { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr); gap:28px; align-items:center; padding:8px 0 4px; }
 .hero-art { width:100%; max-width:380px; justify-self:center; }
 .tagline { font-size:1.5rem; font-weight:750; margin:4px 0 4px; } .lede { color:var(--ink-soft); max-width:34em; font-weight:500; }
-.you-card { position:relative; background:var(--card); border:var(--line); border-radius:var(--r-card); padding:16px; margin-top:16px; box-shadow:var(--shadow); max-width:540px; } .you-card .error { margin-top:0; }
+.you-card { position:relative; background:var(--card); border:var(--line); border-radius:var(--r-card); padding:16px; margin-top:10px; box-shadow:var(--shadow); max-width:540px; } .you-card .error { margin-top:0; }
 .you-card::before,.board-frame::before,.frame-card::before { content:''; position:absolute; top:-12px; left:14%; width:70px; height:22px; background:rgba(255,210,63,.8); mix-blend-mode:multiply; transform:rotate(-4deg); pointer-events:none; clip-path:polygon(3% 0,97% 4%,100% 50%,96% 100%,2% 96%,0 50%); }
 .you-row { display:flex; align-items:center; flex-wrap:wrap; gap:14px; } .you-row .grow { flex:1 1 180px; } .you-row label { margin:0; } .name-input { font-size:1.15rem !important; }
 .cta-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; } .cta-row .big { margin:0; }
@@ -122,6 +122,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible { outline:var(--
 .landing-grid { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:18px; margin:26px 0 40px; align-items:start; }
 .join-row { display:flex; gap:10px; align-items:stretch; } .join-row input { margin:0; flex:1; min-width:0; text-transform:uppercase; font-family:var(--mono); letter-spacing:.06em; } .join-row input::placeholder { text-transform:none; letter-spacing:0; font-family:var(--hand); }
 .public .row { margin-bottom:8px; } .roomlist .grow { flex:1 1 150px; overflow-wrap:anywhere; }
+.public .empty-state.small { padding:10px 14px; }
 .roomlist { list-style:none; margin:8px 0 0; padding:0; display:grid; gap:10px; }
 .roomlist li { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; padding:8px 12px; background:var(--paper-2); border:2px solid var(--ink); border-radius:var(--r-small); }
 

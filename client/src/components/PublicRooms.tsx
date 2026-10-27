@@ -23,7 +23,7 @@ export default function PublicRooms({ connected, busy, onJoin }: Props) {
       {!connected && <p className="state-msg"><Icon name="wifiOff" size={18} /> Waiting for the server…</p>}
       {error && <div className="error small" role="alert">{error}</div>}
       {connected && rooms === null && !error && <p className="state-msg" role="status">Looking for rooms…</p>}
-      {rooms?.length === 0 && <div className="empty-state small"><p><b>No public rooms right now.</b><br />Be the first: create a room and choose “Public”.</p></div>}
+      {rooms?.length === 0 && <div className="empty-state small"><p><b>No public rooms right now.</b></p></div>}
       <ul className="roomlist">
         {rooms?.map(r => (
           <li key={r.code}>

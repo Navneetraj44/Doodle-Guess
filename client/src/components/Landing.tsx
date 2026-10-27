@@ -47,7 +47,6 @@ export default function Landing({ initialName, initialAvatar, connected, notice,
         <div className="hero-copy">
           <Logo />
           <p className="tagline">Draw. Guess. Have fun. <span className="scrawl">just a name, no sign-up</span></p>
-          <p className="lede">A multiplayer drawing and guessing game. Play with friends, or jump into a public room.</p>
           <div className="you-card">
             {error && !create && <div className="error" role="alert">{error}</div>}
             {notice && !create && <div className="landing-notice" role="status"><span>{notice}</span><button type="button" className="notice-dismiss" onClick={onDismissNotice} aria-label="Dismiss notification">×</button></div>}
@@ -67,7 +66,6 @@ export default function Landing({ initialName, initialAvatar, connected, notice,
       <div className="landing-grid">
         <section className="card light join-card" aria-label="Join a room">
           <h2><Icon name="users" size={22} /> Join a room</h2>
-          <p className="muted-dark">Enter a room code or paste an invite link.</p>
           <div className="join-row">
             <input value={code} onChange={e => setCode(parseRoomCode(e.target.value))} onPaste={e => { const t = parseRoomCode(e.clipboardData.getData('text')); if (t) { e.preventDefault(); setCode(t); } }} placeholder="Room code or invite link" aria-label="Room code or invite link" />
             <button className="blue" disabled={disabled || code.length < 5} onClick={() => run('join_room', { roomCode: code })}>{busy === 'join' ? <span className="spin" aria-label="Joining room" /> : 'Join Room'}</button>
